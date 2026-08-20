@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Solar_Mind_AI.WelcomePage"
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False">
+    <Grid>
+        <!-- صورة الخلفية -->
+        <Image Source="welcome_bg.jpeg" 
+               Aspect="AspectFill" />
+
+        <!-- الزراير الحقيقية -->
+        <VerticalStackLayout VerticalOptions="End" 
+                             Padding="20, 50" 
+                             Spacing="15">
+
+            <!-- زرار Get Started بالتدريج اللوني -->
+            <Button Text="Get Started" 
+                    Clicked="OnGetStartedClicked"
+                    TextColor="White"
+                    CornerRadius="10"
+                    HeightRequest="55"
+                    FontSize="18"
+                    FontAttributes="Bold">
+                <Button.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#8BC34A" Offset="0.0" />
+                        <!-- أخضر فاتح -->
+                        <GradientStop Color="#2E7D32" Offset="1.0" />
+                        <!-- أخضر غامق -->
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+
+            <Button Text="Log In" 
+                    Clicked="OnLogInClicked"
+                    BackgroundColor="White"
+                    TextColor="#4CAF50"
+                    BorderColor="#4CAF50"
+                    BorderWidth="2"
+                    CornerRadius="10"
+                    HeightRequest="55"
+                    FontSize="18"
+                    FontAttributes="Bold" />
+
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>
