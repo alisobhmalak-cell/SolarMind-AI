@@ -16,7 +16,7 @@
                 <Label.FormattedText>
                     <FormattedString>
                         <Span Text="Solar" TextColor="#0D47A1" FontSize="32" FontAttributes="Bold" />
-                        <Span Text="Mind AI" TextColor="#4CAF50" FontSize="32" FontAttributes="Bold" />
+                        <Span Text="Mind" TextColor="#4CAF50" FontSize="32" FontAttributes="Bold" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
