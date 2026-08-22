@@ -1,27 +1,32 @@
-﻿namespace Solar_Mind_AI;
+﻿using Firebase.Auth;
+
+namespace Solar_Mind_AI;
 
 public partial class LoginPage : ContentPage
 {
-    public LoginPage()
+    private readonly FirebaseAuthClient _authClient;
+
+    public LoginPage(FirebaseAuthClient authClient)
     {
         InitializeComponent();
+        _authClient = authClient;
     }
-    // برمجة زرار الدخول
-    private void OnLogInClicked(object sender, EventArgs e)
-    {
-        string email = EmailEntry.Text;
-        string password = PasswordEntry.Text;
 
-        // 1. نخفي رسالة الخطأ في بداية الضغطة
+    // زرار Login
+    private async void OnLogInClicked(object sender, EventArgs e)
+    {
+        string email = EmailEntry.Text?.Trim() ?? "";
+        string password = PasswordEntry.Text ?? "";
+
         ErrorLabel.IsVisible = false;
         ErrorLabel.Text = "";
 
-        // 2. نتأكد إن الخانات مش فاضية
+        // التأكد من البيانات
         if (string.IsNullOrWhiteSpace(email))
         {
-            ErrorLabel.Text = "Please enter your email or phone.";
+            ErrorLabel.Text = "Please enter your email.";
             ErrorLabel.IsVisible = true;
-            return; // بيوقف الكود هنا وميكملش
+            return;
         }
 
         if (string.IsNullOrWhiteSpace(password))
@@ -31,41 +36,64 @@ public partial class LoginPage : ContentPage
             return;
         }
 
-        // 3. اختبار بيانات الدخول (عملنا حساب وهمي للتجربة)
-        if (email == "mariam@solar.com" && password == "123456")
+        try
         {
-            // لو صح: هينقلنا للصفحة الرئيسية
-            Application.Current.MainPage = new HomePage();
+            // تسجيل الدخول باستخدام Firebase
+            var userCredential =
+                await _authClient.SignInWithEmailAndPasswordAsync(
+                    email,
+                    password);
+
+            if (userCredential?.User != null)
+            {
+                // تسجيل الدخول نجح
+                Application.Current.MainPage = new HomePage();
+            }
         }
-        else
+        catch (FirebaseAuthException ex)
         {
-            // لو غلط: هيظهر رسالة الخطأ دي باللون الأحمر
             ErrorLabel.Text = "Incorrect Email or Password, try again.";
             ErrorLabel.IsVisible = true;
+
+            System.Diagnostics.Debug.WriteLine(
+                $"Firebase Login Error: {ex.Reason}");
+        }
+        catch (Exception ex)
+        {
+            ErrorLabel.Text = "Something went wrong. Please try again.";
+            ErrorLabel.IsVisible = true;
+
+            System.Diagnostics.Debug.WriteLine(
+                $"Login Error: {ex.Message}");
         }
     }
 
-    // برمجة زرار العين (بيقلب حالة الباسورد بين مخفي وظاهر)
+    // زرار العين
     private void OnEyeClicked(object sender, EventArgs e)
     {
         PasswordEntry.IsPassword = !PasswordEntry.IsPassword;
     }
 
+    // زرار الرجوع
     protected override bool OnBackButtonPressed()
     {
         Application.Current.MainPage = new WelcomePage();
         return true;
     }
 
-    private void OnForgotPasswordTapped(object sender, EventArgs e)
+    // Forgot Password
+    private async void OnForgotPasswordTapped(object sender, EventArgs e)
     {
-        // دي رسالة وهمية شيك هتظهر للمستخدم في نص الشاشة
-        DisplayAlert("Forgot Password", "Please contact support or check your email for reset instructions.", "OK");
+        await DisplayAlert(
+            "Forgot Password",
+            "Please contact support or check your email for reset instructions.",
+            "OK");
     }
 
+    // Sign Up
     private void OnSignUpTextTapped(object sender, EventArgs e)
     {
-        // هتبدل شاشة اللوج ان وتفتح شاشة إنشاء الحساب
-        Application.Current.MainPage = new SignUpPage();
+        Application.Current.MainPage =
+            new SignUpPage(MauiProgram.AuthClient);
     }
 }

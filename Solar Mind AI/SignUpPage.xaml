@@ -40,7 +40,12 @@
             </Border.StrokeShape>
             <Grid ColumnDefinitions="Auto, *">
                 <Image Source="user_icon.png" WidthRequest="20" HeightRequest="20" VerticalOptions="Center" Margin="0,0,10,0"/>
-                <Entry Grid.Column="1" Placeholder="Full Name" TextColor="Black" PlaceholderColor="Gray" BackgroundColor="Transparent" />
+                <Entry x:Name="FullNameEntry"
+       Grid.Column="1"
+       Placeholder="Full Name"
+       TextColor="Black"
+       PlaceholderColor="Gray"
+       BackgroundColor="Transparent" />
             </Grid>
         </Border>
 
@@ -51,7 +56,13 @@
             </Border.StrokeShape>
             <Grid ColumnDefinitions="Auto, *">
                 <Image Source="email_icon.png" WidthRequest="26" HeightRequest="26" Aspect="AspectFit" VerticalOptions="Center" Margin="0,0,10,0"/>
-                <Entry Grid.Column="1" Placeholder="Email Address" Keyboard="Email" TextColor="Black" PlaceholderColor="Gray" BackgroundColor="Transparent" />
+                <Entry x:Name="EmailEntry"
+       Grid.Column="1"
+       Placeholder="Email Address"
+       Keyboard="Email"
+       TextColor="Black"
+       PlaceholderColor="Gray"
+       BackgroundColor="Transparent" />
             </Grid>
         </Border>
 

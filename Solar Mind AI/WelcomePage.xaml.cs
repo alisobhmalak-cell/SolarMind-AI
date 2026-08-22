@@ -9,14 +9,12 @@ public partial class WelcomePage : ContentPage
 
     private void OnLogInClicked(object sender, EventArgs e)
     {
-        Application.Current.MainPage = new LoginPage();
+        Application.Current.MainPage = new LoginPage(MauiProgram.AuthClient );
     }
+
     private void OnGetStartedClicked(object sender, EventArgs e)
     {
-        // الكود ده بيبدل الشاشة الحالية بشاشة تسجيل الدخول
-        Application.Current.MainPage = new SignUpPage();
-
-        // ملاحظة: لو حابة الزرار يودي لصفحة إنشاء الحساب الأول بدلي LoginPage بـ SignUpPage
+        Application.Current.MainPage =
+            new SignUpPage(MauiProgram.AuthClient);
     }
-
 }
