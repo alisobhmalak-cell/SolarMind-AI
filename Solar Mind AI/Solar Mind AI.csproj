@@ -21,7 +21,7 @@
 		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
-		<ApplicationTitle>Solar Mind AI</ApplicationTitle>
+		<ApplicationTitle>SolarMind</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.solarmindai</ApplicationId>
