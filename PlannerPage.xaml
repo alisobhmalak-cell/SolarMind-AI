@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Solar_Mind_AI.PlannerPage"
+             BackgroundImageSource="dashboard.jpeg">
+    <!-- جعلنا الصورة هي خلفية الصفحة بالكامل -->
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="16" Padding="16">
+
+            <!-- محتويات الهيدر مباشرة بدون تعقيد -->
+            <VerticalStackLayout Spacing="10" Padding="0, 10">
+
+                <!-- شريط القائمة العلوية -->
+                <Grid ColumnDefinitions="Auto, *, Auto">
+                    <ImageButton Grid.Column="0" Source="menue_icon.png" WidthRequest="28" HeightRequest="28" BackgroundColor="Transparent" VerticalOptions="Center"/>
+
+                    <Image Grid.Column="1" Source="logo.png" HeightRequest="115" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,80,0"/>
+
+                    <Grid Grid.Column="2" WidthRequest="40" HeightRequest="40" VerticalOptions="Center" HorizontalOptions="End">
+                        <Image Source="notification_icon.png" WidthRequest="44" HeightRequest="44" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        <Ellipse WidthRequest="10" HeightRequest="10" Fill="#10B981" HorizontalOptions="End" VerticalOptions="Start" Margin="0,1,1,0"/>
+                    </Grid>
+                </Grid>
+
+                <!-- عنوان Planner والوصف -->
+                <VerticalStackLayout Spacing="2" Padding="5, 10, 5, 0">
+                    <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                        <Label Text="Planner" FontSize="26" FontAttributes="Bold" TextColor="#111827" VerticalOptions="Center"/>
+                        <Image Source="planner.png" WidthRequest="22" HeightRequest="22" VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                    <Label Text="Plan your solar system &amp; save more" FontSize="13" TextColor="#4B5563"/>
+                </VerticalStackLayout>
+                
+
+            </VerticalStackLayout>
+            <!-- كارت الموقع والطقس مع استجابة فورية للضغط -->
+            <Frame BackgroundColor="White" CornerRadius="16" HasShadow="True" Padding="12,12" Margin="0,5,0,10">
+                <Grid ColumnDefinitions="Auto, 1.3*" VerticalOptions="Center">
+
+                    <!-- 1. الجزء الأيسر: الموقع والسهم مع حدث الضغط (Tap) -->
+                    <Grid Grid.Column="0" ColumnDefinitions="Auto, Auto, Auto" VerticalOptions="Center" HorizontalOptions="Start">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnLocationLayoutTapped"/>
+                        </Grid.GestureRecognizers>
+
+                        <Image Grid.Column="0" Source="location_icon.png" WidthRequest="45" HeightRequest="45" VerticalOptions="Center" Margin="0,0,6,0"/>
+                        <Label x:Name="CityDisplayLabel" Grid.Column="1" Text="Cairo" FontSize="13" FontAttributes="Bold" TextColor="#111827" VerticalOptions="Center" LineBreakMode="NoWrap"/>
+                        <Image Grid.Column="2" Source="dropdown_icon.png" WidthRequest="15" HeightRequest="15" VerticalOptions="Center" Margin="6,0,12,0"/>
+                    </Grid>
+
+                    <!-- 2. الجزء الأيمن: الطقس والـ UV -->
+                    <Grid Grid.Column="1" ColumnDefinitions="Auto, Auto, Auto" VerticalOptions="Center" HorizontalOptions="End" ColumnSpacing="8">
+                        <HorizontalStackLayout Grid.Column="0" Spacing="4" VerticalOptions="Center">
+                            <Image Source="sun_icon.png" WidthRequest="30" HeightRequest="30" VerticalOptions="Center"/>
+                            <Label x:Name="TempLabel" Text="--°C" FontSize="13" FontAttributes="Bold" TextColor="#111827" VerticalOptions="Center"/>
+                            <Label x:Name="ConditionLabel" Text="Clear" FontSize="11" TextColor="#4B5563" VerticalOptions="Center" LineBreakMode="NoWrap"/>
+                        </HorizontalStackLayout>
+
+                        <BoxView Grid.Column="1" WidthRequest="1" BackgroundColor="#E5E7EB" VerticalOptions="Fill" Margin="2,2"/>
+
+                        <HorizontalStackLayout Grid.Column="2" Spacing="3" VerticalOptions="Center">
+                            <Label x:Name="UvLabel" Text="UV --" FontSize="12" FontAttributes="Bold" TextColor="#EA580C" VerticalOptions="Center"/>
+                            <Label x:Name="UvStatusLabel" Text="Moderate" FontSize="11" TextColor="#4B5563" VerticalOptions="Center" LineBreakMode="NoWrap"/>
+                        </HorizontalStackLayout>
+                    </Grid>
+
+                </Grid>
+            </Frame>
+            <!-- ==================== قسم المدخلات (Your Inputs) والأيقونات بجانب الكلمة ==================== -->
+            <VerticalStackLayout Spacing="10" Margin="0,10,0,15">
+                <Label Text="Your Inputs" FontSize="18" FontAttributes="Bold" TextColor="#111827"/>
+                <Label Text="Tell us about your needs and space" FontSize="12" TextColor="#6B7280" Margin="0,0,0,5"/>
+
+                <!-- الكروت الثلاثة -->
+                <Grid ColumnDefinitions="*, *, *" ColumnSpacing="6">
+
+                    <!-- 1. استهلاك الكهرباء -->
+                    <Frame Grid.Column="0" BackgroundColor="White" CornerRadius="12" HasShadow="True" Padding="8">
+                        <VerticalStackLayout Spacing="6">
+                            <HorizontalStackLayout Spacing="4" VerticalOptions="Center">
+                                <Image Source="greenpower_icon.png" WidthRequest="24" HeightRequest="24" VerticalOptions="Center"/>
+                                <Label Text="Monthly Usage" FontSize="10" FontAttributes="Bold" TextColor="#374151" VerticalOptions="Center" LineBreakMode="WordWrap"/>
+                            </HorizontalStackLayout>
+
+                            <Frame BackgroundColor="#F9FAFB" CornerRadius="6" Padding="4" HasShadow="False" BorderColor="#E5E7EB">
+                                <HorizontalStackLayout Spacing="2" HorizontalOptions="Center">
+                                    <Entry x:Name="UsageEntry" Text="450" FontSize="12" FontAttributes="Bold" TextColor="#111827"  Keyboard="Numeric" WidthRequest="45" HorizontalTextAlignment="Center"/>
+                                    <Label Text="kWh" FontSize="10" TextColor="#4B5563" VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                            </Frame>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- 2. مساحة السطح -->
+                    <Frame Grid.Column="1" BackgroundColor="White" CornerRadius="12" HasShadow="True" Padding="8">
+                        <VerticalStackLayout Spacing="6">
+                            <HorizontalStackLayout Spacing="4" VerticalOptions="Center">
+                                <Image Source="area_icon.png" WidthRequest="24" HeightRequest="24" VerticalOptions="Center"/>
+                                <Label Text="Roof Area" FontSize="10" FontAttributes="Bold" TextColor="#374151" VerticalOptions="Center" LineBreakMode="WordWrap"/>
+                            </HorizontalStackLayout>
+
+                            <Frame BackgroundColor="#F9FAFB" CornerRadius="6" Padding="4" HasShadow="False" BorderColor="#E5E7EB">
+                                <HorizontalStackLayout Spacing="2" HorizontalOptions="Center">
+                                    <Entry x:Name="AreaEntry" Text="50" FontSize="12" FontAttributes="Bold" TextColor="#111827" Keyboard="Numeric" WidthRequest="45" HorizontalTextAlignment="Center"/>
+                                    <Label Text="m²" FontSize="10" TextColor="#4B5563" VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                            </Frame>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- 3. الميزانية (مع تعديل مقاس الأيقونة والنص عشان يظهروا جنب بعض تماماً) -->
+                    <Frame Grid.Column="2" BackgroundColor="White" CornerRadius="12" HasShadow="True" Padding="8">
+                        <VerticalStackLayout Spacing="6">
+                            <HorizontalStackLayout Spacing="3" VerticalOptions="Center">
+                                <Image Source="badgate_icon.png" WidthRequest="24" HeightRequest="24" VerticalOptions="Center"/>
+                                <Label Text="Your Budget" FontSize="10" FontAttributes="Bold" TextColor="#374151" VerticalOptions="Center" LineBreakMode="WordWrap"/>
+                            </HorizontalStackLayout>
+
+                            <Frame BackgroundColor="#F9FAFB" CornerRadius="6" Padding="4" HasShadow="False" BorderColor="#E5E7EB">
+                                <HorizontalStackLayout Spacing="2" HorizontalOptions="Center">
+                                    <Entry x:Name="BudgetEntry" Text="100000" FontSize="11" FontAttributes="Bold" TextColor="#111827" Keyboard="Numeric" WidthRequest="55" HorizontalTextAlignment="Center"/>
+                                    <Label Text="EGP" FontSize="10" TextColor="#4B5563" VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                            </Frame>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                </Grid>
+
+                <!-- رسالة الإرشاد وزر الحساب -->
+                <Grid ColumnDefinitions="*, Auto" ColumnSpacing="8" Margin="0,5,0,0">
+                    <Frame Grid.Column="0" BackgroundColor="#ECFDF5" CornerRadius="12" HasShadow="False" Padding="10" VerticalOptions="Center">
+                        <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                            <Image Source="caluclate_icon.png" WidthRequest="20" HeightRequest="20" VerticalOptions="Center"/>
+                            <Label Text="We will calculate the best solution for you." FontSize="11.5" TextColor="#065F46" VerticalOptions="Center" LineBreakMode="WordWrap"/>
+                        </HorizontalStackLayout>
+                    </Frame>
+
+                    <Button Grid.Column="1" Text="Calculate" TextColor="White" BackgroundColor="#059669" CornerRadius="12" FontSize="12" FontAttributes="Bold" Padding="12,0" VerticalOptions="Fill" Clicked="OnCalculatePlanClicked"/>
+                </Grid>
+
+            </VerticalStackLayout>
+
+
+            <!-- ==================== 2. قسم النتائج (Your Solar Plan) مع الأيقونات والكارت الأخير ==================== -->
+            <VerticalStackLayout Spacing="10" Margin="0,10,0,30">
+                <Label Text="Your Solar Plan" FontSize="18" FontAttributes="Bold" TextColor="#111827"/>
+                <Label Text="Based on your inputs and current conditions" FontSize="12" TextColor="#6B7280" Margin="0,0,0,5"/>
+
+                <!-- شبكة الكروت الستة للنتائج (مع إضافة الأيقونات فوق كل كارت) -->
+                <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*, *, *" ColumnSpacing="8" RowSpacing="8">
+
+                    <!-- 1. الألواح المقترحة -->
+                    <Frame Grid.Row="0" Grid.Column="0" BackgroundColor="White" CornerRadius="14" HasShadow="True" Padding="10">
+                        <VerticalStackLayout Spacing="4">
+                            <HorizontalStackLayout Spacing="4">
+                                <!-- [صورة: أيقونة الألواح، مثلاً panel_icon.png] -->
+                                <Image Source="panel_icon.png" WidthRequest="25" HeightRequest="25" VerticalOptions="Center"/>
+                                <Label Text="Recommended" FontSize="10" TextColor="#6B7280" VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+                            <Label Text="Panels" FontSize="11" FontAttributes="Bold" TextColor="#374151"/>
+                            <Label x:Name="PanelsResultLabel" Text="12" FontSize="18" FontAttributes="Bold" TextColor="#059669" Margin="0,2"/>
+                            <Label Text="550W Each" FontSize="10" TextColor="#9CA3AF"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- 2. حجم النظام -->
+                    <Frame Grid.Row="0" Grid.Column="1" BackgroundColor="White" CornerRadius="14" HasShadow="True" Padding="10">
+                        <VerticalStackLayout Spacing="4">
+                            <HorizontalStackLayout Spacing="4">
+                                <!-- [صورة: أيقونة البرق/الطاقة، مثلاً bolt_icon.png] -->
+                                <Image Source="greenpower_icon.png" WidthRequest="25" HeightRequest="25" VerticalOptions="Center"/>
+                                <Label Text="System Size" FontSize="10" TextColor="#6B7280" VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+                            <Label Text="Capacity" FontSize="11" FontAttributes="Bold" TextColor="#374151"/>
+                            <HorizontalStackLayout Spacing="2" Margin="0,2">
+                                <Label x:Name="SizeResultLabel" Text="6.6" FontSize="16" FontAttributes="Bold" TextColor="#059669"/>
+                                <Label Text="kW" FontSize="12" TextColor="#059669" VerticalOptions="End"/>
+                            </HorizontalStackLayout>
+                            <Label Text="Total Capacity" FontSize="10" TextColor="#9CA3AF"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- 3. التكلفة التقديرية -->
+                    <Frame Grid.Row="0" Grid.Column="2" BackgroundColor="White" CornerRadius="14" HasShadow="True" Padding="10">
+                        <VerticalStackLayout Spacing="4">
+                            <HorizontalStackLayout Spacing="4">
+                                <!-- [صورة: أيقونة المال/الشكارة، مثلاً money_bag_icon.png] -->
+                                <Image Source="cost_icon.png" WidthRequest="25" HeightRequest="25" VerticalOptions="Center"/>
+                                <Label Text="Estimated" FontSize="10" TextColor="#6B7280" VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+                            <Label Text="Cost" FontSize="11" FontAttributes="Bold" TextColor="#374151"/>
+                            <HorizontalStackLayout Spacing="2" Margin="0,2">
+                                <Label x:Name="CostResultLabel" Text="98,500" FontSize="13" FontAttributes="Bold" TextColor="#059669"/>
+                                <Label Text="EGP" FontSize="10" TextColor="#059669" VerticalOptions="End"/>
+                            </HorizontalStackLayout>
+                            <Label Text="With Installation" FontSize="10" TextColor="#9CA3AF"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- 4. الإنتاج اليومي -->
+                    <Frame Grid.Row="1" Grid.Column="0" BackgroundColor="White" CornerRadius="14" HasShadow="True" Padding="10">
+                        <VerticalStackLayout Spacing="4">
+                            <HorizontalStackLayout Spacing="4">
+                                <!-- [صورة: أيقونة الشمس، مثلاً sun_icon.png] -->
+                                <Image Source="sun_icon.png" WidthRequest="31" HeightRequest="31" VerticalOptions="Center"/>
+                                <Label Text="Daily" FontSize="10" TextColor="#6B7280" VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+                            <Label Text="Production" FontSize="11" FontAttributes="Bold" TextColor="#374151"/>
+                            <HorizontalStackLayout Spacing="2" Margin="0,2">
+                                <Label x:Name="ProductionResultLabel" Text="28.5" FontSize="13" FontAttributes="Bold" TextColor="#059669"/>
+                                <Label Text="kWh" FontSize="10" TextColor="#059669" VerticalOptions="End"/>
+                            </HorizontalStackLayout>
+                            <Label Text="Avg. Season" FontSize="10" TextColor="#9CA3AF"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- 5. التوفير الشهري -->
+                    <Frame Grid.Row="1" Grid.Column="1" BackgroundColor="White" CornerRadius="14" HasShadow="True" Padding="10">
+                        <VerticalStackLayout Spacing="4">
+                            <HorizontalStackLayout Spacing="4">
+                                <!-- [صورة: أيقونة الرسم البياني للصعود، مثلاً chart_icon.png] -->
+                                <Image Source="monthly_icon.png" WidthRequest="25" HeightRequest="25" VerticalOptions="Center"/>
+                                <Label Text="Monthly" FontSize="10" TextColor="#6B7280" VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+                            <Label Text="Savings" FontSize="11" FontAttributes="Bold" TextColor="#374151"/>
+                            <HorizontalStackLayout Spacing="2" Margin="0,2">
+                                <Label x:Name="SavingsResultLabel" Text="1,280" FontSize="13" FontAttributes="Bold" TextColor="#059669"/>
+                                <Label Text="EGP" FontSize="10" TextColor="#059669" VerticalOptions="End"/>
+                            </HorizontalStackLayout>
+                            <Label Text="Estimated" FontSize="10" TextColor="#9CA3AF"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- 6. فترة الاسترداد -->
+                    <Frame Grid.Row="1" Grid.Column="2" BackgroundColor="White" CornerRadius="14" HasShadow="True" Padding="10">
+                        <VerticalStackLayout Spacing="4">
+                            <HorizontalStackLayout Spacing="4">
+                                <!-- [صورة: أيقونة الساعة، مثلاً clock_icon.png] -->
+                                <Image Source= "priod_icon.png" WidthRequest="25" HeightRequest="25" VerticalOptions="Center"/>
+                                <Label Text="Payback" FontSize="10" TextColor="#6B7280" VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+                            <Label Text="Period" FontSize="11" FontAttributes="Bold" TextColor="#374151"/>
+                            <HorizontalStackLayout Spacing="2" Margin="0,2">
+                                <Label x:Name="PaybackResultLabel" Text="6.4" FontSize="13" FontAttributes="Bold" TextColor="#059669"/>
+                                <Label Text="Years" FontSize="10" TextColor="#059669" VerticalOptions="End"/>
+                            </HorizontalStackLayout>
+                            <Label Text="Estimated" FontSize="10" TextColor="#9CA3AF"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                </Grid>
+
+                <!-- ==================== الكارت الأخضر التحفيزي الأخير (النسخة النهائية المضبوطة) ==================== -->
+                <Frame BackgroundColor="#F0FDF4" BorderColor="#DCFCE7" CornerRadius="16" HasShadow="False" Padding="14" Margin="0,6,0,0">
+                    <Grid ColumnDefinitions="Auto, *" ColumnSpacing="12" VerticalOptions="Center">
+                        <Image Grid.Column="0" Source="loof_icon.png" WidthRequest="35" HeightRequest="35" VerticalOptions="Center"/>
+
+                        <Label Grid.Column="1" VerticalOptions="Center" FontSize="14" LineBreakMode="WordWrap">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="You will save approximately " TextColor="#166534"/>
+                                    <Span x:Name="YearlySavingsSpan" Text="13,200 EGP" FontAttributes="Bold" TextColor="#166534"/>
+                                    <Span Text=" every year while helping the environment." TextColor="#166534"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </Grid>
+                </Frame>
+
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+    
+    
+</ContentPage>
+    

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Solar_Mind_AI"
+             x:Class="Solar_Mind_AI.DashboardPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundImageSource="dashboard.jpeg">
+
+    <Grid>
+        <!-- المحتوى القابل للتمرير مع مساحة كافية للشريط السفلي -->
+        <ScrollView Margin="0,0,0,75">
+            <VerticalStackLayout Spacing="16" Padding="16">
+
+                <!-- الهيدر العلوي (قللنا الارتفاع بتاعه لـ 75) -->
+                <Grid HeightRequest="70" Margin="0, 25, 0, 0">
+
+                    <!-- 1. اللوجو -->
+                    <Image Source="logo.png" 
+           WidthRequest="350" 
+           HeightRequest="125" 
+           HorizontalOptions="Start" 
+           VerticalOptions="Center" 
+           Margin="-60,0,0,0" 
+           Aspect="AspectFit"/>
+
+                    <!-- 2. زر القائمة -->
+                    <Image Source="menue_icon.png" 
+           WidthRequest="34" 
+           HeightRequest="34" 
+           HorizontalOptions="Start" 
+           VerticalOptions="Center" 
+           Margin="5,0,0,0"/>
+
+                    <!-- 3. زر الجرس -->
+                    <Image Source="notification_icon.png" 
+           WidthRequest="38" 
+           HeightRequest="38" 
+           HorizontalOptions="End" 
+           VerticalOptions="Center" 
+           Margin="0,0,5,0"/>
+                </Grid>
+
+                <!-- الترحيب (حطيناله Margin سالب من فوق عشان يطلع لفوق ويلزق تحت اللوجو مظبوط) -->
+                <VerticalStackLayout Spacing="3" Margin="0, -2, 0, 0">
+                    <HorizontalStackLayout Spacing="5" Margin="0,0,0,0">
+                        <Label x:Name="GreetingLabel" Text="Good Morning," FontSize="14" TextColor="#6B7280" VerticalOptions="Center"/>
+                        <Label x:Name="UserNameLabel" Text="Mariam ☀️" FontSize="14" TextColor="#6B7280" FontAttributes="Bold" VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                    <Label Text="Solar Dashboard" FontSize="24" FontAttributes="Bold" TextColor="#1F2937"/>
+                    <Label Text="🟢 Your solar system is operating normally." FontSize="12" TextColor="#10B981" FontAttributes="Bold"/>
+                </VerticalStackLayout>
+
+                <!-- 1. كارت الإنتاج اليومي (بدون شمس وبمساحة رسم بياني واسعة) -->
+                <Frame BackgroundColor="White" CornerRadius="16" HasShadow="True" Padding="16">
+                    <VerticalStackLayout Spacing="10">
+                        <!-- عنوان الكارت بدون شمس -->
+                        <Label Text="Today's Solar Production" FontSize="14" FontAttributes="Bold" TextColor="#374151" VerticalOptions="Center"/>
+
+                        <!-- المحتوى: الأرقام على الشمال، والرسم البياني الواسع على اليمين -->
+                        <Grid ColumnDefinitions="Auto, *">
+                            <!-- تفاصيل الإنتاج -->
+                            <VerticalStackLayout Grid.Column="0" Spacing="3" VerticalOptions="Center">
+                                <Label Text="24.8 kWh" FontSize="28" FontAttributes="Bold" TextColor="#10B981"/>
+                                <Label Text="↑ 12% vs Yesterday" FontSize="11" TextColor="#059669" FontAttributes="Bold"/>
+                                <Frame BackgroundColor="#ECFDF5" CornerRadius="6" Padding="6, 3" HorizontalOptions="Start" Margin="0, 4, 0, 0">
+                                    <Label Text="★ Excellent Performance" FontSize="10" TextColor="#047857" FontAttributes="Bold"/>
+                                </Frame>
+                            </VerticalStackLayout>
+
+                            <!-- مساحة الرسم البياني الواسعة والمتمددة -->
+                            <Border Grid.Column="1" BackgroundColor="#F9FAFB" StrokeThickness="0" StrokeShape="RoundRectangle 8" HeightRequest="90" Margin="10,0,0,0">
+                                <GraphicsView x:Name="SolarChartGraphicsView" HorizontalOptions="Fill" VerticalOptions="Fill">
+                                    <GraphicsView.Drawable>
+                                        <local:SolarChartDrawable />
+                                    </GraphicsView.Drawable>
+                                </GraphicsView>
+                            </Border>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- 2. الكروت الأربعة -->
+                <Grid ColumnDefinitions="*, *, *, *" ColumnSpacing="6">
+
+                    <!-- كارت البطارية -->
+                    <Frame Grid.Column="0" BackgroundColor="White" CornerRadius="12" Padding="4, 12" HasShadow="True">
+                        <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                            <Image Source="battary_icon.png" WidthRequest="55" HeightRequest="55" HorizontalOptions="Center"/>
+                            <Label Text="Battery" FontSize="10" TextColor="#6B7280" HorizontalOptions="Center"/>
+                            <Label Text="84%" FontSize="20" FontAttributes="Bold" TextColor="#111827" HorizontalOptions="Center"/>
+                            <Label Text="⚡ Healthy" FontSize="12" TextColor="#10B981" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- كارت الاستهلاك -->
+                    <Frame Grid.Column="1" BackgroundColor="White" CornerRadius="12" Padding="2, 12" HasShadow="True">
+                        <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                            <Image Source="consumption.png" WidthRequest="55" HeightRequest="55" HorizontalOptions="Center"/>
+                            <Label Text="Consumption" FontSize="9" TextColor="#6B7280" HorizontalOptions="Center"/>
+                            <Label Text="18.3 kWh" FontSize="18" FontAttributes="Bold" TextColor="#111827" HorizontalOptions="Center"/>
+                            <Label Text="📊 Today" FontSize="12" TextColor="#3B82F6" FontAttributes="Bold" HorizontalOptions="Center" Margin="0,5,0,0"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- كارت الطقس -->
+                    <Frame Grid.Column="2" BackgroundColor="White" CornerRadius="12" Padding="4, 12" HasShadow="True">
+                        <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                            <Image Source="weather_icon.png" WidthRequest="55" HeightRequest="55" HorizontalOptions="Center"/>
+                            <Label Text="Weather" FontSize="10" TextColor="#6B7280" HorizontalOptions="Center"/>
+                            <Label  x:Name="WeatherTempLabel" Text="31°C" FontSize="20" FontAttributes="Bold" TextColor="#111827" HorizontalOptions="Center"/>
+                            <Label x:Name="WeatherConditionLabel" Text="☀ Sunny" FontSize="12" TextColor="#F59E0B" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- كارت الإنفرتر -->
+                    <Frame Grid.Column="3" BackgroundColor="White" CornerRadius="12" Padding="4, 12" HasShadow="True">
+                        <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                            <Image Source="inverter_icon.png" WidthRequest="55" HeightRequest="55" HorizontalOptions="Center"/>
+                            <Label Text="Inverter" FontSize="10" TextColor="#6B7280" HorizontalOptions="Center"/>
+                            <Label Text="Online" FontSize="19" FontAttributes="Bold" TextColor="#10B981" HorizontalOptions="Center"/>
+                            <Label Text="🟢 Healthy" FontSize="12" TextColor="#10B981" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                </Grid>
+                <!-- 3. كارت الأداء (Solar Performance Score) - النسخة النهائية -->
+                <Frame BackgroundColor="White" CornerRadius="16" Padding="14" HasShadow="True">
+                    <VerticalStackLayout Spacing="8">
+
+                        <!-- السطر العلوي: أيقونة الكأس وجملة Solar Performance Score -->
+                        <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                            <Image Source="performance_icon.png" WidthRequest="40" HeightRequest="40" VerticalOptions="Center"/>
+                            <Label Text="Solar Performance Score" FontSize="12" FontAttributes="Bold" TextColor="#1F2937" VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+
+                        <!-- السطر السفلي: مقسم جزأين -->
+                        <Grid ColumnDefinitions="*, *" ColumnSpacing="8">
+
+                            <!-- الجزء الأيسر: النسبة 95% وكلمة Excellent (اللون الأخضر مطابق للنسبة) -->
+                            <VerticalStackLayout Grid.Column="0" Spacing="4" VerticalOptions="Center">
+                                <Label Text="95%" FontSize="34" FontAttributes="Bold" TextColor="#10B981"/>
+                                <Label Text="Excellent" FontSize="13" FontAttributes="Bold" TextColor="#10B981"/>
+                            </VerticalStackLayout>
+
+                            <!-- الجزء الأيمن: العداد الشفاف وفوقه السهم المتحرك (إحداثيات NeedelDrawable السابقة) -->
+                            <Grid Grid.Column="1" HeightRequest="100" WidthRequest="130" VerticalOptions="Center" HorizontalOptions="Center">
+                                <Image Source="gauge.jpeg" Aspect="AspectFit" HeightRequest="100" WidthRequest="130"/>
+                                <GraphicsView HeightRequest="100" WidthRequest="130" HorizontalOptions="Center" VerticalOptions="Center">
+                                    <GraphicsView.Drawable>
+                                        <local:NeedleDrawable />
+                                    </GraphicsView.Drawable>
+                                </GraphicsView>
+                            </Grid>
+
+                        </Grid>
+                    </VerticalStackLayout>
+                </Frame>
+                <!-- 4. قسم الإحصائيات -->
+                <Frame BackgroundColor="White" CornerRadius="16" HasShadow="True" Padding="16">
+                    <VerticalStackLayout Spacing="12">
+                        <Grid ColumnDefinitions="Auto, *">
+                            <Image Source="today_at_a_glance_icon.png" WidthRequest="38" HeightRequest="38" VerticalOptions="Center" Margin="0,0,8,0"/>
+                            <Label Grid.Column="1" Text="Today at a Glance" FontSize="14" FontAttributes="Bold" TextColor="#1F2937" VerticalOptions="Center"/>
+                        </Grid>
+
+                        <BoxView HeightRequest="1" Color="#E5E7EB"/>
+
+                        <Grid ColumnDefinitions="Auto, *, Auto, Auto">
+                            <Image Source="co2_icon.png" WidthRequest="35" HeightRequest="35" Grid.Column="0" VerticalOptions="Center" Margin="0,0,8,0"/>
+                            <Label Text="CO₂ Saved Today" FontSize="12" TextColor="#4B5563" Grid.Column="1" VerticalOptions="Center"/>
+                            <Label Text="18 kg" FontSize="12" FontAttributes="Bold" TextColor="#1F2937" Grid.Column="2" VerticalOptions="Center" Margin="0,0,10,0"/>
+                            <Label Text="›" FontSize="16" TextColor="#9CA3AF" Grid.Column="3" VerticalOptions="Center"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="Auto, *, Auto, Auto">
+                            <Image Source="savings_icon.png" WidthRequest="35" HeightRequest="35" Grid.Column="0" VerticalOptions="Center" Margin="0,0,8,0"/>
+                            <Label Text="Today's Savings" FontSize="12" TextColor="#4B5563" Grid.Column="1" VerticalOptions="Center"/>
+                            <Label Text="EGP 82" FontSize="12" FontAttributes="Bold" TextColor="#1F2937" Grid.Column="2" VerticalOptions="Center" Margin="0,0,10,0"/>
+                            <Label Text="›" FontSize="16" TextColor="#9CA3AF" Grid.Column="3" VerticalOptions="Center"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="Auto, *, Auto, Auto">
+                            <Image Source="system_status_icon.png" WidthRequest="32" HeightRequest="32" Grid.Column="0" VerticalOptions="Center" Margin="0,0,8,0"/>
+                            <Label Text="System Status" FontSize="12" TextColor="#4B5563" Grid.Column="1" VerticalOptions="Center"/>
+                            <Label Text="All Panels Healthy" FontSize="12" FontAttributes="Bold" TextColor="#10B981" Grid.Column="2" VerticalOptions="Center" Margin="0,0,10,0"/>
+                            <Label Text="›" FontSize="16" TextColor="#9CA3AF" Grid.Column="3" VerticalOptions="Center"/>
+                        </Grid>
+
+
+                    </VerticalStackLayout>
+                </Frame>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+
+    </Grid>
+</ContentPage>
